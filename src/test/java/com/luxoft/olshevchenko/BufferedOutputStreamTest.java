@@ -1,25 +1,24 @@
 package com.luxoft.olshevchenko;
 
 import org.junit.jupiter.api.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BufferedOutputStreamTest {
+
     String content = "Hello";
     private final String TEST_FILE_PATH = "src/main/resources/testFile.txt";
     BufferedOutputStream bufferedOutputStream;
-    java.io.BufferedOutputStream originalBufferedOutputStream;
+//    java.io.BufferedOutputStream bufferedOutputStream;
 
     @BeforeEach
     void before() throws IOException {
         new File(TEST_FILE_PATH).createNewFile();
         bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(TEST_FILE_PATH));
-        originalBufferedOutputStream = new java.io.BufferedOutputStream(new FileOutputStream(TEST_FILE_PATH));
+//        bufferedOutputStream = new java.io.BufferedOutputStream(new FileOutputStream(TEST_FILE_PATH));
     }
 
     @AfterEach

@@ -1,12 +1,7 @@
 package com.luxoft.olshevchenko;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
+import org.junit.jupiter.api.*;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,9 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Oleksandr Shevchenko
  */
 public class BufferedInputStreamTest {
+
     String content = "Hello";
     BufferedInputStream bufferedInputStream = new BufferedInputStream(new ByteArrayInputStream(content.getBytes()));
-    java.io.BufferedInputStream originalBufferedInputStream = new java.io.BufferedInputStream(new ByteArrayInputStream(content.getBytes()));
+//    java.io.BufferedInputStream bufferedInputStream = new java.io.BufferedInputStream(new java.io.ByteArrayInputStream(content.getBytes()));
 
     @Test
     @DisplayName("Test Read method without parameters")
@@ -43,7 +39,12 @@ public class BufferedInputStreamTest {
     void testReadWithParamAndOffset() throws IOException {
         byte[] bytes = new byte[6];
         assertEquals(5, bufferedInputStream.read(bytes, 1,5));
-        assertArrayEquals(content.getBytes(), bytes);
+        assertEquals(0, bytes[0]);
+        assertEquals(content.getBytes()[0], bytes[1]);
+        assertEquals(content.getBytes()[1], bytes[2]);
+        assertEquals(content.getBytes()[2], bytes[3]);
+        assertEquals(content.getBytes()[3], bytes[4]);
+        assertEquals(content.getBytes()[4], bytes[5]);
         assertEquals(-1, bufferedInputStream.read());
     }
 

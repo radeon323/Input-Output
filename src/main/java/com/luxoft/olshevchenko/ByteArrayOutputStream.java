@@ -7,30 +7,42 @@ import java.io.OutputStream;
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayOutputStream extends OutputStream {
+    protected volatile byte[] buffer;
+    protected int position;
 
-    @Override
-    public void write(int b) throws IOException {
+    public ByteArrayOutputStream() {
+        this(5);
+    }
 
+    public ByteArrayOutputStream(int size) {
+        buffer = new byte[size];
     }
 
     @Override
-    public void write(byte[] b) throws IOException {
-        super.write(b);
+    public void write(int byt) {
+        buffer[position] = (byte) byt;
+        position++;
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        super.write(b, off, len);
+    public void write(byte[] bytes) {
+        write(bytes, 0, buffer.length);
     }
 
     @Override
-    public void flush() throws IOException {
-        super.flush();
+    public void write(byte[] bytes, int offset, int length) {
+        System.arraycopy(bytes, offset, buffer, position, length);
+        position = position + length;
     }
 
     @Override
     public void close() throws IOException {
         super.close();
+    }
+
+    @Override
+    public String toString() {
+        return new String(buffer, 0, position);
     }
 
 

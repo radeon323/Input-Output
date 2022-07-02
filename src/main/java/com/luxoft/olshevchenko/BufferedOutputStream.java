@@ -26,15 +26,14 @@ public class BufferedOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] buffer) throws IOException {
-        write(buffer, 0, buffer.length);
+    public void write(byte[] bytes) {
+        write(bytes, 0, bytes.length);
     }
 
     @Override
-    public void write(byte[] buffer, int offset, int length) throws IOException {
-        for (int i = 0; i < length; i++) {
-            write(buffer[i + offset]);
-        }
+    public void write(byte[] bytes, int offset, int length) {
+        System.arraycopy(bytes, offset, buffer, position, length);
+        position = position + length;
     }
 
     @Override
@@ -50,6 +49,7 @@ public class BufferedOutputStream extends OutputStream {
     public void close() throws IOException {
         target.close();
     }
+
 
     private void writeBuffer() throws IOException {
         if (position > 0) {

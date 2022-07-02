@@ -36,12 +36,12 @@ public class BufferedInputStream extends InputStream {
     }
 
     @Override
-    public int read(byte[] buffer) throws IOException {
-        return read(buffer, 0, buffer.length);
+    public int read(byte[] bytes) throws IOException {
+        return read(bytes, 0, bytes.length);
     }
 
     @Override
-    public int read(byte[] buffer, int offset, int length) throws IOException {
+    public int read(byte[] bytes, int offset, int length) throws IOException {
         int position = 0;
         if (length == 0) {
             return 0;
@@ -51,13 +51,13 @@ public class BufferedInputStream extends InputStream {
         if (currentByte == -1) {
             return -1;
         }
-        buffer[offset] = currentByte;
+        bytes[offset] = currentByte;
         for (position = 1; position < length ; position++) {
             currentByte = (byte) read();
             if (currentByte == -1) {
                 return -1;
             }
-            buffer[offset + position] = currentByte;
+            bytes[offset + position] = currentByte;
         }
         return position;
     }
@@ -67,6 +67,7 @@ public class BufferedInputStream extends InputStream {
         target.close();
         buffer = null;
     }
+
 
     private void getBytes() throws IOException {
         int bytes = target.read(buffer);
