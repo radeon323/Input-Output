@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayInputStreamTest {
-
     @Test
     public void testRead() {
         String content = "Hello";

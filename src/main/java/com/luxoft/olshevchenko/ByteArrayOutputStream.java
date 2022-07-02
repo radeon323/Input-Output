@@ -7,6 +7,7 @@ import java.io.OutputStream;
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayOutputStream extends OutputStream {
+
     @Override
     public void write(int b) throws IOException {
 

@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Oleksandr Shevchenko
  */
 public class BufferedInputStreamTest {
-
     String content = "Hello";
     BufferedInputStream bufferedInputStream = new BufferedInputStream(new ByteArrayInputStream(content.getBytes()));
     java.io.BufferedInputStream originalBufferedInputStream = new java.io.BufferedInputStream(new ByteArrayInputStream(content.getBytes()));

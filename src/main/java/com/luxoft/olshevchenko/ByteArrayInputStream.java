@@ -7,6 +7,7 @@ import java.io.InputStream;
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayInputStream extends InputStream {
+
     @Override
     public int read(byte[] b) throws IOException {
         return super.read(b);

@@ -68,7 +68,6 @@ public class BufferedInputStream extends InputStream {
         buffer = null;
     }
 
-
     private void getBytes() throws IOException {
         int bytes = target.read(buffer);
         if (bytes > 0) {

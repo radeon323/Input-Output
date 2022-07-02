@@ -51,7 +51,6 @@ public class BufferedOutputStream extends OutputStream {
         target.close();
     }
 
-
     private void writeBuffer() throws IOException {
         if (position > 0) {
             target.write(buffer, 0, position);
