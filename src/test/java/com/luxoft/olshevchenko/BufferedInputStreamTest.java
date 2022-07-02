@@ -10,6 +10,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Oleksandr Shevchenko
+ */
 public class BufferedInputStreamTest {
 
     String content = "Hello";
@@ -31,9 +34,8 @@ public class BufferedInputStreamTest {
     @DisplayName("Test Read method with parameters")
     void testReadWithParam() throws IOException {
         byte[] bytes = new byte[5];
-        byte[] bytesExpected = new byte[]{'H','e','l','l','o'};
         assertEquals(5, bufferedInputStream.read(bytes));
-        assertArrayEquals(bytesExpected, bytes);
+        assertArrayEquals(content.getBytes(), bytes);
         assertEquals(-1, bufferedInputStream.read());
     }
 
@@ -41,9 +43,8 @@ public class BufferedInputStreamTest {
     @DisplayName("Test Read method with parameters and offset")
     void testReadWithParamAndOffset() throws IOException {
         byte[] bytes = new byte[6];
-        byte[] bytesExpected = new byte[]{0,'H','e','l','l','o'};
         assertEquals(5, bufferedInputStream.read(bytes, 1,5));
-        assertArrayEquals(bytesExpected, bytes);
+        assertArrayEquals(content.getBytes(), bytes);
         assertEquals(-1, bufferedInputStream.read());
     }
 
