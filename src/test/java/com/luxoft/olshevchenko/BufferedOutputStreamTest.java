@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BufferedOutputStreamTest {
 
     String content = "Hello";
-    private final String TEST_FILE_PATH = "src/main/resources/testFile.txt";
+    private final String TEST_FILE_PATH = "src/test/resources/testFile.txt";
     BufferedOutputStream bufferedOutputStream;
 //    java.io.BufferedOutputStream bufferedOutputStream;
 
@@ -68,6 +68,21 @@ public class BufferedOutputStreamTest {
         assertEquals(content.getBytes()[2],fileInputStream.read());
         assertEquals(content.getBytes()[3],fileInputStream.read());
         assertEquals(content.getBytes()[4],fileInputStream.read());
+        assertEquals(-1,fileInputStream.read());
+    }
+
+    @Test
+    @DisplayName("Test Write method with parameters and offset if content bigger than buffer")
+    void testWriteWithParamAndOffsetIfContentBiggerThanBuffer() throws IOException {
+        String content = "Hello java!";
+        bufferedOutputStream.write(content.getBytes(),5,6);
+        FileInputStream fileInputStream = new FileInputStream(TEST_FILE_PATH);
+        assertEquals(content.getBytes()[5],fileInputStream.read());
+        assertEquals(content.getBytes()[6],fileInputStream.read());
+        assertEquals(content.getBytes()[7],fileInputStream.read());
+        assertEquals(content.getBytes()[8],fileInputStream.read());
+        assertEquals(content.getBytes()[9],fileInputStream.read());
+        assertEquals(content.getBytes()[10],fileInputStream.read());
         assertEquals(-1,fileInputStream.read());
     }
 

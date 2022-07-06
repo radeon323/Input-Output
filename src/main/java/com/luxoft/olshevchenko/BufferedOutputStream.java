@@ -20,20 +20,26 @@ public class BufferedOutputStream extends OutputStream {
     @Override
     public void write(int byt) throws IOException {
         if (position == BUFFER_SIZE) {
-            writeBuffer();
+            flush();
         }
         buffer[position++] = (byte) byt;
     }
 
     @Override
-    public void write(byte[] bytes) {
+    public void write(byte[] bytes) throws IOException {
         write(bytes, 0, bytes.length);
     }
 
     @Override
-    public void write(byte[] bytes, int offset, int length) {
-        System.arraycopy(bytes, offset, buffer, position, length);
-        position = position + length;
+    public void write(byte[] bytes, int offset, int length) throws IOException {
+        int freeSpace = buffer.length - position;
+        if (freeSpace <= buffer.length) {
+            flush();
+            target.write(bytes, offset, length);
+        } else {
+            System.arraycopy(bytes, offset, buffer, position, length);
+            position += length;
+        }
     }
 
     @Override
@@ -41,20 +47,16 @@ public class BufferedOutputStream extends OutputStream {
         if (buffer == null) {
             throw new IOException("Stream closed");
         }
-        writeBuffer();
-        target.flush();
+        if (position > 0) {
+            target.write(buffer, 0, position);
+            position = 0;
+        }
     }
 
     @Override
     public void close() throws IOException {
-        target.close();
-    }
-
-
-    private void writeBuffer() throws IOException {
-        if (position > 0) {
-            target.write(buffer, 0, position);
-            position = 0;
+        try (target) {
+            flush();
         }
     }
 
