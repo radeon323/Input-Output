@@ -2,6 +2,7 @@ package com.luxoft.olshevchenko;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * @author Oleksandr Shevchenko
@@ -25,14 +26,17 @@ public class ByteArrayOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] bytes) {
+    public void write(byte[] bytes) throws IOException {
         write(bytes, 0, buffer.length);
     }
 
     @Override
-    public void write(byte[] bytes, int offset, int length) {
+    public synchronized void write(byte[] bytes, int offset, int length) throws IOException {
+        if (length >= buffer.length) {
+            buffer = Arrays.copyOf(buffer, length);
+        }
         System.arraycopy(bytes, offset, buffer, position, length);
-        position = position + length;
+        position += length;
     }
 
     @Override

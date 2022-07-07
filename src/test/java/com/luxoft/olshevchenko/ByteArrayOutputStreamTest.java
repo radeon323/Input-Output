@@ -30,9 +30,10 @@ class ByteArrayOutputStreamTest {
 
     @Test
     @DisplayName("Test Write method with parameters and offset")
-    void testWriteWithParamAndOffset() {
-        byteArrayOutputStream.write(content.getBytes(),3,2);
-        assertEquals("lo", byteArrayOutputStream.toString());
+    void testWriteWithParamAndOffset() throws IOException {
+        String content = "Hello java!";
+        byteArrayOutputStream.write(content.getBytes(),3,8);
+        assertEquals("lo java!", byteArrayOutputStream.toString());
     }
 
     @Test
