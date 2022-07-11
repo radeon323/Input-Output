@@ -10,8 +10,8 @@ public class ByteArrayInputStream extends InputStream {
     protected volatile byte[] buffer;
     protected int position;
 
-    public ByteArrayInputStream(byte[] bytes) {
-        buffer = bytes;
+    public ByteArrayInputStream(byte[] array) {
+        buffer = array;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class ByteArrayInputStream extends InputStream {
     }
 
     @Override
-    public int read(byte[] bytes) {
-        return read(bytes, 0, bytes.length);
+    public int read(byte[] array) {
+        return read(array, 0, array.length);
     }
 
     @Override
-    public int read(byte[] bytes, int offset, int length) {
+    public int read(byte[] array, int offset, int length) {
         if (position == buffer.length) {
             return -1;
         }
@@ -38,7 +38,7 @@ public class ByteArrayInputStream extends InputStream {
         if (length > freeSpace) {
             length = freeSpace;
         }
-        System.arraycopy(buffer, position, bytes, offset, length);
+        System.arraycopy(buffer, position, array, offset, length);
         position += length;
         return length;
     }

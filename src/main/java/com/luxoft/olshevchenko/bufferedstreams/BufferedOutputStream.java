@@ -7,13 +7,13 @@ import java.io.OutputStream;
  * @author Oleksandr Shevchenko
  */
 public class BufferedOutputStream extends OutputStream {
-    private final OutputStream target;
+    private final OutputStream outputStream;
     private static final int BUFFER_SIZE = 5;
     protected volatile byte[] buffer;
     protected int position;
 
-    public BufferedOutputStream(OutputStream target) {
-        this.target = target;
+    public BufferedOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
         buffer = new byte[BUFFER_SIZE];
     }
 
@@ -26,18 +26,18 @@ public class BufferedOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] bytes) throws IOException {
-        write(bytes, 0, bytes.length);
+    public void write(byte[] array) throws IOException {
+        write(array, 0, array.length);
     }
 
     @Override
-    public void write(byte[] bytes, int offset, int length) throws IOException {
+    public void write(byte[] array, int offset, int length) throws IOException {
         int freeSpace = buffer.length - position;
         if (freeSpace <= buffer.length) {
             flush();
-            target.write(bytes, offset, length);
+            outputStream.write(array, offset, length);
         } else {
-            System.arraycopy(bytes, offset, buffer, position, length);
+            System.arraycopy(array, offset, buffer, position, length);
             position += length;
         }
     }
@@ -48,14 +48,14 @@ public class BufferedOutputStream extends OutputStream {
             throw new IOException("Stream closed");
         }
         if (position > 0) {
-            target.write(buffer, 0, position);
+            outputStream.write(buffer, 0, position);
             position = 0;
         }
     }
 
     @Override
     public void close() throws IOException {
-        try (target) {
+        try (outputStream) {
             flush();
         }
     }

@@ -26,16 +26,16 @@ public class ByteArrayOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte[] bytes) throws IOException {
-        write(bytes, 0, buffer.length);
+    public void write(byte[] array) throws IOException {
+        write(array, 0, buffer.length);
     }
 
     @Override
-    public synchronized void write(byte[] bytes, int offset, int length) throws IOException {
+    public synchronized void write(byte[] array, int offset, int length) throws IOException {
         if (length >= buffer.length) {
             buffer = Arrays.copyOf(buffer, length);
         }
-        System.arraycopy(bytes, offset, buffer, position, length);
+        System.arraycopy(array, offset, buffer, position, length);
         position += length;
     }
 
