@@ -1,4 +1,4 @@
-package com.luxoft.olshevchenko;
+package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,6 +76,7 @@ public class BufferedInputStream extends InputStream {
             for (int i = bytes; i < BUFFER_SIZE; i++) {
                 buffer[i] = 0;
             }
+            System.out.println(Arrays.toString(buffer));
         } else {
             Arrays.fill(buffer, (byte) 0);
         }

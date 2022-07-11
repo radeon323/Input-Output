@@ -1,4 +1,4 @@
-package com.luxoft.olshevchenko;
+package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.OutputStream;

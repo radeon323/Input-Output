@@ -1,4 +1,4 @@
-package com.luxoft.olshevchenko;
+package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,14 +34,12 @@ public class ByteArrayInputStream extends InputStream {
         if (position == buffer.length) {
             return -1;
         }
-        for (int i = 0; i < bytes.length; i++) {
-            if (i < offset) {
-                bytes[i] = 0;
-            } else {
-                bytes[i] = buffer[i - offset];
-            }
-            position++;
+        int freeSpace = buffer.length - position;
+        if (length > freeSpace) {
+            length = freeSpace;
         }
+        System.arraycopy(buffer, position, bytes, offset, length);
+        position += length;
         return length;
     }
 

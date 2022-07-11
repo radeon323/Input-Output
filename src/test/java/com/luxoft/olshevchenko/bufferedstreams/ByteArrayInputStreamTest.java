@@ -1,4 +1,4 @@
-package com.luxoft.olshevchenko;
+package com.luxoft.olshevchenko.bufferedstreams;
 
 import org.junit.jupiter.api.*;
 import java.io.IOException;
