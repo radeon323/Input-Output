@@ -35,7 +35,9 @@ public class BufferedOutputStream extends OutputStream {
         int freeSpace = buffer.length - position;
         if (freeSpace <= buffer.length) {
             flush();
-            outputStream.write(array, offset, length);
+            try (outputStream) {
+                outputStream.write(array, offset, length);
+            }
         } else {
             System.arraycopy(array, offset, buffer, position, length);
             position += length;
@@ -48,7 +50,9 @@ public class BufferedOutputStream extends OutputStream {
             throw new IOException("Stream closed");
         }
         if (position > 0) {
-            outputStream.write(buffer, 0, position);
+            try (outputStream) {
+                outputStream.write(buffer, 0, position);
+            }
             position = 0;
         }
     }

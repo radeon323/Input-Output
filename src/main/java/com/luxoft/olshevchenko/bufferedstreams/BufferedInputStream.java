@@ -70,14 +70,16 @@ public class BufferedInputStream extends InputStream {
 
 
     private void getBytes() throws IOException {
-        int bytes = inputStream.read(buffer);
-        if (bytes > 0) {
-            System.arraycopy(buffer, 0, buffer, 0, bytes);
-            for (int i = bytes; i < BUFFER_SIZE; i++) {
-                buffer[i] = 0;
+        try (inputStream) {
+            int bytes = inputStream.read(buffer);
+            if (bytes > 0) {
+                System.arraycopy(buffer, 0, buffer, 0, bytes);
+                for (int i = bytes; i < BUFFER_SIZE; i++) {
+                    buffer[i] = 0;
+                }
+            } else {
+                Arrays.fill(buffer, (byte) 0);
             }
-        } else {
-            Arrays.fill(buffer, (byte) 0);
         }
     }
 
