@@ -2,24 +2,23 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayInputStream extends InputStream {
-    protected volatile byte[] buffer;
-    protected int position;
+    private byte[] buffer;
+    private int position;
 
     public ByteArrayInputStream(byte[] array) {
-        buffer = array;
+        this.buffer = array;
     }
 
     @Override
     public int read() {
         if (position < buffer.length) {
-            byte current = buffer[position];
-            position++;
-            return current;
+            return buffer[position++];
         }
         return -1;
     }
@@ -34,9 +33,8 @@ public class ByteArrayInputStream extends InputStream {
         if (position == buffer.length) {
             return -1;
         }
-        int freeSpace = buffer.length - position;
-        if (length > freeSpace) {
-            length = freeSpace;
+        if (position >= length) {
+            length = buffer.length-length;
         }
         System.arraycopy(buffer, position, array, offset, length);
         position += length;

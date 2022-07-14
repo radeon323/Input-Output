@@ -2,7 +2,6 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * @author Oleksandr Shevchenko
@@ -10,12 +9,13 @@ import java.util.Arrays;
 public class BufferedInputStream extends InputStream {
     private final InputStream inputStream;
     private static final int BUFFER_SIZE = 5;
-    protected volatile byte[] buffer;
-    protected int position;
+    private byte[] buffer;
+    private int position;
+    private int count;
 
     public BufferedInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
-        buffer = new byte[BUFFER_SIZE];
+        this.buffer = new byte[BUFFER_SIZE];
     }
 
     @Override
@@ -23,16 +23,11 @@ public class BufferedInputStream extends InputStream {
         if (buffer == null) {
             throw new IOException("Stream closed");
         }
-        if (position == BUFFER_SIZE || position == 0) {
-            position = 0;
-            getBytes();
+        fillBuffer();
+        if (count != -1) {
+            return buffer[position++];
         }
-        if (buffer[position] != 0) {
-            int current = buffer[position];
-            position++;
-            return current;
-        }
-        return -1;
+        return count;
     }
 
     @Override
@@ -42,22 +37,17 @@ public class BufferedInputStream extends InputStream {
 
     @Override
     public int read(byte[] array, int offset, int length) throws IOException {
-        int position = 0;
         if (length == 0) {
             return 0;
         }
-        read();
-        byte currentByte = this.buffer[position];
-        if (currentByte == -1) {
+        if (fillBuffer() == -1) {
             return -1;
         }
-        array[offset] = currentByte;
-        for (position = 1; position < length ; position++) {
-            currentByte = (byte) read();
-            if (currentByte == -1) {
-                return -1;
-            }
-            array[offset + position] = currentByte;
+        if (length > buffer.length) {
+            inputStream.read(array, offset, length);
+        } else {
+            System.arraycopy(buffer, position, array, offset, length);
+            position += length;
         }
         return position;
     }
@@ -68,19 +58,12 @@ public class BufferedInputStream extends InputStream {
         buffer = null;
     }
 
-
-    private void getBytes() throws IOException {
-        try (inputStream) {
-            int bytes = inputStream.read(buffer);
-            if (bytes > 0) {
-                System.arraycopy(buffer, 0, buffer, 0, bytes);
-                for (int i = bytes; i < BUFFER_SIZE; i++) {
-                    buffer[i] = 0;
-                }
-            } else {
-                Arrays.fill(buffer, (byte) 0);
-            }
+    private int fillBuffer() throws IOException {
+        if (position == count) {
+            count = inputStream.read(buffer);
+            position = 0;
         }
+        return count;
     }
 
 

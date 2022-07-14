@@ -2,16 +2,16 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import org.junit.jupiter.api.*;
 import java.io.IOException;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayInputStreamTest {
-
-    String content = "Hello";
-    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(content.getBytes());
-//    java.io.ByteArrayInputStream byteArrayInputStream = new java.io.ByteArrayInputStream(content.getBytes());
+    private final String content = "Hello";
+    private final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(content.getBytes());
 
     @Test
     @DisplayName("Test Read method without parameters")
@@ -27,28 +27,28 @@ public class ByteArrayInputStreamTest {
     @Test
     @DisplayName("Test Read method with parameters")
     void testReadWithParam() throws IOException {
-        byte[] bytes = new byte[5];
-        assertEquals(5, byteArrayInputStream.read(bytes));
-        assertArrayEquals(content.getBytes(), bytes);
+        byte[] array = new byte[5];
+        assertEquals(5, byteArrayInputStream.read(array));
+        assertArrayEquals(content.getBytes(), array);
         assertEquals(-1, byteArrayInputStream.read());
     }
 
     @Test
     @DisplayName("Test Read method with parameters and offset")
     void testReadWithParamAndOffset() {
-        byte[] bytes = new byte[6];
-        assertEquals(5, byteArrayInputStream.read(bytes, 1,5));
-        assertEquals(0, bytes[0]);
-        assertEquals(content.getBytes()[0], bytes[1]);
-        assertEquals(content.getBytes()[1], bytes[2]);
-        assertEquals(content.getBytes()[2], bytes[3]);
-        assertEquals(content.getBytes()[3], bytes[4]);
-        assertEquals(content.getBytes()[4], bytes[5]);
+        byte[] array = new byte[6];
+        assertEquals(5, byteArrayInputStream.read(array, 1,5));
+        assertEquals(0, array[0]);
+        assertEquals('H', array[1]);
+        assertEquals('e', array[2]);
+        assertEquals('l', array[3]);
+        assertEquals('l', array[4]);
+        assertEquals('o', array[5]);
         assertEquals(-1, byteArrayInputStream.read());
     }
 
     @Test
-    @DisplayName("Test Close method")
+    @DisplayName("Test Close method in ByteArrayInputStream has no effect")
     void testClose() throws IOException {
         assertEquals('H', byteArrayInputStream.read());
         assertEquals('e', byteArrayInputStream.read());

@@ -5,10 +5,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ByteArrayOutputStreamTest {
-
-    String content = "Hello";
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//    java.io.ByteArrayOutputStream byteArrayOutputStream = new java.io.ByteArrayOutputStream();
+    private final String content = "Hello";
+    private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
     @Test
     @DisplayName("Test Write method without parameters")
@@ -37,7 +35,7 @@ class ByteArrayOutputStreamTest {
     }
 
     @Test
-    @DisplayName("Test Close method")
+    @DisplayName("Test Close method in ByteArrayOutputStream has no effect")
     void testClose() throws IOException {
         byteArrayOutputStream.write('H');
         byteArrayOutputStream.write('e');

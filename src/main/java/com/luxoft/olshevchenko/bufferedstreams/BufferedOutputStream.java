@@ -9,12 +9,12 @@ import java.io.OutputStream;
 public class BufferedOutputStream extends OutputStream {
     private final OutputStream outputStream;
     private static final int BUFFER_SIZE = 5;
-    protected volatile byte[] buffer;
-    protected int position;
+    private byte[] buffer;
+    private int position;
 
     public BufferedOutputStream(OutputStream outputStream) {
         this.outputStream = outputStream;
-        buffer = new byte[BUFFER_SIZE];
+        this.buffer = new byte[BUFFER_SIZE];
     }
 
     @Override
@@ -35,9 +35,7 @@ public class BufferedOutputStream extends OutputStream {
         int freeSpace = buffer.length - position;
         if (freeSpace <= buffer.length) {
             flush();
-            try (outputStream) {
-                outputStream.write(array, offset, length);
-            }
+            outputStream.write(array, offset, length);
         } else {
             System.arraycopy(array, offset, buffer, position, length);
             position += length;
@@ -50,9 +48,7 @@ public class BufferedOutputStream extends OutputStream {
             throw new IOException("Stream closed");
         }
         if (position > 0) {
-            try (outputStream) {
-                outputStream.write(buffer, 0, position);
-            }
+            outputStream.write(buffer, 0, position);
             position = 0;
         }
     }

@@ -8,20 +8,20 @@ import java.util.Arrays;
  * @author Oleksandr Shevchenko
  */
 public class ByteArrayOutputStream extends OutputStream {
-    protected volatile byte[] buffer;
-    protected int position;
+    private byte[] buffer;
+    private int position;
 
     public ByteArrayOutputStream() {
         this(5);
     }
 
     public ByteArrayOutputStream(int size) {
-        buffer = new byte[size];
+        this.buffer = new byte[size];
     }
 
     @Override
-    public void write(int byt) {
-        buffer[position] = (byte) byt;
+    public void write(int bit) {
+        buffer[position] = (byte) bit;
         position++;
     }
 
@@ -31,8 +31,8 @@ public class ByteArrayOutputStream extends OutputStream {
     }
 
     @Override
-    public synchronized void write(byte[] array, int offset, int length) throws IOException {
-        if (length >= buffer.length) {
+    public void write(byte[] array, int offset, int length) throws IOException {
+        if (length > buffer.length) {
             buffer = Arrays.copyOf(buffer, length);
         }
         System.arraycopy(array, offset, buffer, position, length);
