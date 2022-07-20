@@ -4,6 +4,9 @@ import org.junit.jupiter.api.*;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Oleksandr Shevchenko
+ */
 class ByteArrayOutputStreamTest {
     private final String content = "Hello";
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

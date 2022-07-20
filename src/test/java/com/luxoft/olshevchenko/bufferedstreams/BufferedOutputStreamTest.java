@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Oleksandr Shevchenko
+ */
 public class BufferedOutputStreamTest {
     private final String content = "Hello";
     private final String TEST_FILE_PATH = "src/test/resources/testFile.txt";

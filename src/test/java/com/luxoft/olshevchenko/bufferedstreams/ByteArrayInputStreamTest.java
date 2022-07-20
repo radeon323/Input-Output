@@ -2,7 +2,6 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import org.junit.jupiter.api.*;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

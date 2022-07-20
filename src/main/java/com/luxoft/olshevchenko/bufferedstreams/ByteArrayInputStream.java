@@ -2,7 +2,6 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * @author Oleksandr Shevchenko
