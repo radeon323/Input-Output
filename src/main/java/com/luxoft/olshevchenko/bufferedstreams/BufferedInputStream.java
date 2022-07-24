@@ -24,11 +24,10 @@ public class BufferedInputStream extends InputStream {
         if (buffer == null) {
             throw new IOException("Stream closed");
         }
-        fillBuffer();
-        if (count != -1) {
-            return buffer[position++];
+        if (fillBuffer() == -1) {
+            return -1;
         }
-        return count;
+        return buffer[position++];
     }
 
     @Override
@@ -38,20 +37,23 @@ public class BufferedInputStream extends InputStream {
 
     @Override
     public int read(byte[] array, int offset, int length) throws IOException {
+        if (buffer == null) {
+            throw new IOException("Stream closed");
+        }
         if (length == 0) {
             return 0;
         }
-        if (fillBuffer() == -1) {
-            return -1;
-        }
-        int freeSpace = buffer.length - position;
-        if (length > freeSpace) {
-            count = inputStream.read(array, offset, length);
-            return count;
+        int bufferCount = count - position;
+        if (bufferCount <= 0) {
+            return inputStream.read(array, offset, length);
         } else {
+            fillBuffer();
+            if (bufferCount < length) {
+                length = bufferCount;
+            }
             System.arraycopy(buffer, position, array, offset, length);
             position += length;
-            return position;
+            return length;
         }
     }
 
