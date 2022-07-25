@@ -44,7 +44,7 @@ public class BufferedInputStream extends InputStream {
             return 0;
         }
         int bufferCount = count - position;
-        if (bufferCount <= 0) {
+        if (bufferCount == 0) {
             return inputStream.read(array, offset, length);
         } else {
             fillBuffer();
