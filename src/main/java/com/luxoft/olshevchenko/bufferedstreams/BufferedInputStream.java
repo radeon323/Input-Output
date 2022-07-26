@@ -2,7 +2,6 @@ package com.luxoft.olshevchenko.bufferedstreams;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * @author Oleksandr Shevchenko
@@ -43,13 +42,13 @@ public class BufferedInputStream extends InputStream {
         if (length == 0) {
             return 0;
         }
-        int bufferCount = count - position;
-        if (bufferCount == 0) {
+        if (position == buffer.length) {
             return inputStream.read(array, offset, length);
         } else {
             fillBuffer();
-            if (bufferCount < length) {
-                length = bufferCount;
+            int freeSpace = buffer.length - position;
+            if (length > freeSpace) {
+                length = freeSpace;
             }
             System.arraycopy(buffer, position, array, offset, length);
             position += length;

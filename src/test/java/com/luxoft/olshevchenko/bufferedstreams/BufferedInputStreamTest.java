@@ -39,7 +39,7 @@ public class BufferedInputStreamTest {
     @Test
     @DisplayName("Test Read method with parameters and offset")
     void testReadWithParamAndOffset() throws IOException {
-        byte[] array = new byte[6];
+        byte[] array = new byte[17];
         assertEquals(5, bufferedInputStream.read(array, 1,5));
         assertEquals(0, array[0]);
         assertEquals('H', array[1]);
