@@ -42,11 +42,12 @@ public class BufferedInputStream extends InputStream {
         if (length == 0) {
             return 0;
         }
-        if (position == buffer.length) {
+        int freeSpace = buffer.length - position;
+        if (length > freeSpace && count == position) {
             return inputStream.read(array, offset, length);
+        } else if (fillBuffer() == -1) {
+            return -1;
         } else {
-            fillBuffer();
-            int freeSpace = buffer.length - position;
             if (length > freeSpace) {
                 length = freeSpace;
             }
